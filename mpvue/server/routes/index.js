@@ -32,7 +32,11 @@ router.get('/message', controllers.message.get)
 // POST 用来处理微信转发过来的客服消息
 router.post('/message', controllers.message.post)
 
+//测试
 router.get('/data', controllers.data)
-
+//向数据库存所有书
 router.post('/addbook',controllers.addbook)
+//获取book列表
+router.get('/booklist',controllers.booklist)
+
 module.exports = router

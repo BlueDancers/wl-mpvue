@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style>
+.text-primary {
+  color: #EA5149;
+}
 .btn {
   background-color: #ea5a49;
   color: white;
