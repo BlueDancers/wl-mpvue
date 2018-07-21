@@ -14,7 +14,7 @@
 
 <script>
 import yearprogress from '@/components/YearProgrees'
-import { get } from '../../utils/util'
+import { get,post,showModal } from '../../utils/util'
 import config from '../../config'
 import qcloud from 'wafer2-client-sdk'
 export default {
@@ -25,7 +25,7 @@ export default {
     let userinfo = wx.getStorageSync('userinfo')
     if (userinfo) {
       console.log('信息写入,隐藏按钮')
-      this.loginStatus= false
+      this.loginStatus = false
       this.basedata.avatarUrl = userinfo.avatarUrl
       this.basedata.nickName = userinfo.nickName
     }
@@ -40,17 +40,37 @@ export default {
     }
   },
   methods: {
+    async addBook(isbn) {
+      let userinfo = wx.getStorageSync('userinfo')
+      const res = await post('/weapp/addbook',{
+        isbn,
+        openid : userinfo.openId
+      })
+      if(res.code == 0&& res.data.title){
+        console.log(res.code);   //res是后端返回来的值 code 是状态 0是正确 -1 是错误
+        console.log(res.data);   //data是后端的值
+        showModal('添加成功',`${res.data.title}添加成功`)
+      }else if(res.code == 0){
+        showModal("添加失败",res.data.msg)
+      }
+    },
     sanBook() {
       console.log('开始扫码')
       wx.scanCode({
         success: res => {
+          console.log(res);
+          if (res.result){
+            this.addBook(res.result)
+          } 
+        },
+        fail: res => {
           console.log(res)
         }
       })
     },
     async login(event) {
       const session = qcloud.Session.get()
-      console.log(session);
+      console.log(session)
       qcloud.setLoginUrl(config.loginUrl) //请求后端
       if (session) {
         // 第二次登录
@@ -68,7 +88,7 @@ export default {
         // 首次登录
         qcloud.login({
           success: res => {
-            console.log(res);
+            console.log(res)
             wx.setStorageSync('userinfo', res) //写入缓存
             this.basedata.avatarUrl = res.avatarUrl
             this.basedata.nickName = res.nickName

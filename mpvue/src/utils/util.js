@@ -1,12 +1,26 @@
 //工具类
 import config from '../config'
 
-//对we的请求进行封装
-export function get(url) { //对wx.request进行封装
+//http get工具函数 获取函数
+export function get(url,data) { //对wx.request进行封装
+  return request(url,'get',data)
+}
+
+//http post工具函数 获取函数
+export function post(url,data) { //对wx.request进行封装
+
+  return request(url, 'post',data)
+}
+
+
+//post get 的封装
+function request(url,method,data) {
   return new Promise((resolve, reject) => {
     wx.request({
+      data,
+      method,
       url: config.host + url,
-      success: function (res) {
+      success: (res) => {
         if (res.data.code == 0) {
           resolve(res.data)
         } else {
@@ -14,5 +28,14 @@ export function get(url) { //对wx.request进行封装
         }
       }
     })
+  })
+}
+
+
+export function showModal(title,content){
+  wx.showModal({
+    title,
+    content,
+    showCancel:false,
   })
 }
