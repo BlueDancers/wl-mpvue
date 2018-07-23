@@ -38,5 +38,8 @@ router.get('/data', controllers.data)
 router.post('/addbook',controllers.addbook)
 //获取book列表
 router.get('/booklist',controllers.booklist)
-
+//获取图书详情的代码
+router.get('/bookdetail',controllers.bookdetail)
+//获取图书点击量的前几个
+router.get('/top', controllers.top)
 module.exports = router

@@ -1,7 +1,8 @@
 <template>
-  <div class="book" @click="zz">
-    <div class="thumb">
-      <img :src="book.image" class="image" alt="">
+<a :href="detailUrl">
+  <div class="book" @click="togo">
+    <div class="thumb" @click.stop="prrview">
+      <img :src="book.image" class="image" alt="" >
     </div>
     <div class="detail">
       <div class="row text-primary">
@@ -17,7 +18,7 @@
           {{ book.author }}
         </div>
         <div class="left">
-         浏览量:
+         浏览量:{{ book.count }}
         </div>
       </div>
       <div class="row">
@@ -25,11 +26,12 @@
           {{ book.publisher }}
         </div>
         <div class="left">
-         添加人:
+          {{ book.user_info.nickName }}
         </div>
       </div>
     </div>
   </div>
+</a>
 </template>
 
 <script>
@@ -39,13 +41,21 @@ export default {
     rate
   },
   props: {
-    book : {
+    book: {
       type: Array
     }
   },
+  computed: {
+    detailUrl() {
+      return '/pages/detail/main?id=' + this.book.id
+    }
+  },
   methods: {
-    zz(){
-      console.log(this.book);
+    prrview() {
+      wx.previewImage({
+        current: this.book.img,
+        urls:[this.book.image]
+      })
     }
   }
 }
@@ -79,6 +89,9 @@ export default {
       }
       .left {
         width: 200rpx;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }

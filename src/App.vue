@@ -6,17 +6,7 @@
 
 <script>
 export default {
-  //async 
   created() {
-    // const res = await get('weapp/data')
-    // console.log(res);
-
-    // wx.request({
-    //   url: config.host+"weapp/data",
-    //   success: (res)=> {
-    //     console.log(res);
-    //   }
-    // })
     console.log('小程序启动')
   }
 }
