@@ -6,9 +6,7 @@ module.exports = async (ctx) => {
                                    .where("id", id)
                                    .first()
 
-  console.log(detail);
   let info = JSON.parse(detail.user_info)   //将字符串转成对象
-  console.log(info);
   
 
   //这里返回一个数组 如果不加first就会被[]包围,所以加first返回数组第一个,单边后面操作

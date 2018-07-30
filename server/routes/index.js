@@ -42,4 +42,8 @@ router.get('/booklist',controllers.booklist)
 router.get('/bookdetail',controllers.bookdetail)
 //获取图书点击量的前几个
 router.get('/top', controllers.top)
+
+router.post('/addcomment',controllers.addcomment)
+
+router.get('/Commentlist', controllers.Commentlist)
 module.exports = router

@@ -22,7 +22,7 @@ function request(url,method,data) {
       url: config.host + url,
       success: (res) => {
         if (res.data.code == 0) {
-          resolve(res.data)
+          resolve(res.data) 
         } else {
           reject(res.data)
         }
