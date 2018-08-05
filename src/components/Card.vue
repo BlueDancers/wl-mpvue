@@ -10,7 +10,7 @@
           {{ book.title }}
         </div>
         <div class="left">
-        <rate :value="book.rate"></rate> {{ book.rate }} 
+        <rate :value="book.rate"></rate> {{ book.rate }}  <rate :value="book.rate"></rate> {{ book.rate }} 
         </div>
       </div>
       <div class="row">
@@ -26,7 +26,7 @@
           {{ book.publisher }}
         </div>
         <div class="left">
-          {{ book.user_info.nickName }}
+          {{ book.user_info.nickName}}
         </div>
       </div>
     </div>

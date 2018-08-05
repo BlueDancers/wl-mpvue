@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="userinfo">
-      <img :src="basedata.avatarUrl" @click="login" alt="useImg">
+      <img :src="basedata.avatarUrl" alt="useImg">
       <p>{{ basedata.nickName }}</p>
     </div>
     <!-- 实现天数组件 -->
     <yearprogress></yearprogress>
 
     <button @click="sanBook" class="btn">添加图书</button>
-    <button open-type="getUserInfo" @click="login" v-show="loginStatus">登录</button>
+    <button open-type="getUserInfo" @getuserinfo="Login" v-show="loginStatus">登录</button>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
     return {
       basedata: {
         avatarUrl: '../../../static/img/unlogin.png',
-        nickName: '点击登录'
+        nickName: ' '
       },
       loginStatus: true
     }
@@ -68,10 +68,12 @@ export default {
         }
       })
     },
-    async login(event) {
-      const session = qcloud.Session.get()
-      console.log(session)
+    async Login(res) {
       qcloud.setLoginUrl(config.loginUrl) //请求后端
+      const session = await qcloud.Session.get()
+      wx.showLoading({
+          title: '登录中',
+      })
       if (session) {
         // 第二次登录
         // 或者本地已经有登录态
@@ -79,28 +81,38 @@ export default {
         qcloud.loginWithCode({
           success: res => {
             console.log(res)
+            this.userinfo = res
+            wx.setStorageSync('userinfo', this.userinfo)
+             wx.showToast({
+              title: '你已经登录了',
+              icon: 'success',
+              duration: 2000
+            })
           },
           fail: err => {
-            console.error(err)
+            console.log(err)
+          },
+          complete: ()=> {
+            wx.hideLoading()
           }
         })
       } else {
         // 首次登录
         qcloud.login({
           success: res => {
-            console.log(res)
-            wx.setStorageSync('userinfo', res) //写入缓存
-            this.basedata.avatarUrl = res.avatarUrl
-            this.basedata.nickName = res.nickName
+            this.userinfo = res
+            wx.setStorageSync('userinfo', this.userinfo)
+            this.basedata.avatarUrl = this.userinfo.avatarUrl
+            this.basedata.nickName = this.userinfo.nickName
             wx.showToast({
-              title: '登录成功',
+              title: '成功',
               icon: 'success',
               duration: 2000
             })
-            this.loginStatus = false
           },
-          fail: err => {
-            console.error(err)
+          fail: err => {},
+          complete: ()=> {
+            wx.hideLoading()
           }
         })
       }

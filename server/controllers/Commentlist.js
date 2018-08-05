@@ -13,8 +13,6 @@ module.exports = async (ctx) => {
    } else if(openid){
      //这里获取用户评论的列表
     comments = await mysqlSelect.where('openid', openid)
-    console.log(comments);
-    
    }                
 
   ctx.state.data = {

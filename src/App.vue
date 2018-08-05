@@ -1,6 +1,6 @@
 <template>
   <div>
-    这里是App
+    
   </div>
 </template>
 

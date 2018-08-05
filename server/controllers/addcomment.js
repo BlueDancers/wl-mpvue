@@ -15,7 +15,7 @@ module.exports = async (ctx) => {
       msg: 'success'
     }
   } catch (error) {
-    ctx,state = {
+    ctx.state = {
       code : -1,
       data :{
         msg: '评论失败'+error.sqlMessage
